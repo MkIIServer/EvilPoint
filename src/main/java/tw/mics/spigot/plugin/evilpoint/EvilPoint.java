@@ -29,6 +29,7 @@ public class EvilPoint extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        db.close();
         this.logDebug("Unregister Listener!");
         HandlerList.unregisterAll();
         this.logDebug("Unregister Schedule tasks!");
