@@ -115,6 +115,7 @@ public class EvilPointListener extends MyListener {
     public void onTNTMaked(InventoryClickEvent event){
         if(event.getClickedInventory() == null)return;
         if(event.getClickedInventory().getType() != InventoryType.WORKBENCH)return;
+        if(event.getCurrentItem() == null)return;
         if(event.getCurrentItem().getType() != Material.TNT)return;
         //Cupboard.getInstance().log("%s %d",event.getAction().toString(), event.getRawSlot());
         
