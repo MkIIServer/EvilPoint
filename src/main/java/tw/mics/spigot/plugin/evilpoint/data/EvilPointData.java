@@ -29,7 +29,13 @@ public class EvilPointData {
     }
     private void scoreboardInit(){
         board = Bukkit.getScoreboardManager().getMainScoreboard();
-        objective = board.registerNewObjective("evilpoint", "dummy");
+        objective = board.getObjective("evilpoint");
+        if(objective == null){
+            objective = board.registerNewObjective("evilpoint", "dummy");
+        } else if(!objective.getCriteria().equals("dummy")){
+            objective.unregister();
+            objective = board.registerNewObjective("evilpoint", "dummy");
+        }
         objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
         for(Player online : Bukkit.getOnlinePlayers()){
             online.setScoreboard(board);
