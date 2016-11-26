@@ -28,7 +28,7 @@ public class EvilPointData {
         scoreboardInit();
     }
     private void scoreboardInit(){
-        board = Bukkit.getScoreboardManager().getNewScoreboard();
+        board = Bukkit.getScoreboardManager().getMainScoreboard();
         objective = board.registerNewObjective("evilpoint", "dummy");
         objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
         for(Player online : Bukkit.getOnlinePlayers()){
@@ -37,11 +37,13 @@ public class EvilPointData {
             objective.getScore(UUID).setScore(getEvil(online));
         }
     }
+    
     @SuppressWarnings("deprecation")
     public void scoreboardUpdate(Player player){
         player.setScoreboard(board);
         objective.getScore(player).setScore(getEvil(player));
     }
+    
     @SuppressWarnings("deprecation")
     public void scoreboardUpdate(){
         for(Player online : Bukkit.getOnlinePlayers()){
