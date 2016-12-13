@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -77,7 +78,12 @@ public class EvilPointListener extends MyListener {
         }
         
         //點數計算
-        if(damager != null && damager != event.getEntity() && event.getFinalDamage() > 0.1){
+        if(
+                damager != null && 
+                damager != event.getEntity() && 
+                event.getFinalDamage() > 0.1 && 
+                event.getCause() != DamageCause.THORNS
+        ){
             evilpointdata.plusEvil(damager, (int)Math.ceil(event.getFinalDamage()));
             evilpointdata.scoreboardUpdate(damager);
         }

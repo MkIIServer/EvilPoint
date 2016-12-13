@@ -34,7 +34,6 @@ public class EvilPointSchedule {
                     if(!limit.containsKey(p.getUniqueId())) limit.put(p.getUniqueId(), 0);
                     if(
                             !p.getInventory().contains(Material.TNT) &&
-                            !p.getEnderChest().contains(Material.TNT) &&
                             limit.get(p.getUniqueId()) < 50 &&
                             evilpoint.getEvil(p) > 0
                     ){
