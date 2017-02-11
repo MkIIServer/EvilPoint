@@ -15,6 +15,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 
+import tw.mics.spigot.plugin.cupboard.Cupboard;
 import tw.mics.spigot.plugin.evilpoint.EvilPoint;
 import tw.mics.spigot.plugin.evilpoint.data.EvilPointData;
 import tw.mics.spigot.plugin.evilpoint.utils.Util;
@@ -81,9 +82,15 @@ public class EvilPointListener extends MyListener {
         if(
                 damager != null && 
                 damager != event.getEntity() && 
-                event.getFinalDamage() > 0.1 && 
+                event.getFinalDamage() > 4 && 
                 event.getCause() != DamageCause.THORNS
         ){
+            try {
+                if(
+                    Cupboard.getInstance().cupboards.checkIsLimit(damager.getLocation().getBlock()) &&
+                    !Cupboard.getInstance().cupboards.checkIsLimit(damager.getLocation().getBlock(), damager)
+                ) return;
+            } catch (Exception e){}
             evilpointdata.plusEvil(damager, (int)Math.ceil(event.getFinalDamage()));
             evilpointdata.scoreboardUpdate(damager);
         }
@@ -98,6 +105,12 @@ public class EvilPointListener extends MyListener {
             return;
         Player killer = Util.getDamager(((EntityDamageByEntityEvent)damageEvent).getDamager());
         if(killer != null && killer != event.getEntity()){
+            try {
+                if(
+                    Cupboard.getInstance().cupboards.checkIsLimit(killer.getLocation()) &&
+                    !Cupboard.getInstance().cupboards.checkIsLimit(killer.getLocation(), killer)
+                ) return;
+            } catch (Exception e){}
             if(evilpointdata.getEvil(killer) < evilpointdata.getEvil((Player) event.getEntity())){
                 evilpointdata.plusEvil(killer, 10);
             } else {
