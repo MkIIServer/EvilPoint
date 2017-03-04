@@ -82,16 +82,17 @@ public class EvilPointListener extends MyListener {
         if(
                 damager != null && 
                 damager != event.getEntity() && 
-                event.getFinalDamage() > 4 && 
+                event.getFinalDamage() >= 2 && 
                 event.getCause() != DamageCause.THORNS
         ){
+            double evil_point = event.getFinalDamage();
             try {
                 if(
                     Cupboard.getInstance().cupboards.checkIsLimit(damager.getLocation().getBlock()) &&
                     !Cupboard.getInstance().cupboards.checkIsLimit(damager.getLocation().getBlock(), damager)
-                ) return;
+                ) evil_point /= 2.0;
             } catch (Exception e){}
-            evilpointdata.plusEvil(damager, (int)Math.ceil(event.getFinalDamage()));
+            evilpointdata.plusEvil(damager, (int)Math.ceil(evil_point));
             evilpointdata.scoreboardUpdate(damager);
         }
     }
@@ -105,17 +106,19 @@ public class EvilPointListener extends MyListener {
             return;
         Player killer = Util.getDamager(((EntityDamageByEntityEvent)damageEvent).getDamager());
         if(killer != null && killer != event.getEntity()){
+            int evil_point;
+            if(evilpointdata.getEvil(killer) < evilpointdata.getEvil((Player) event.getEntity())){
+                evil_point = 20;
+            } else {
+                evil_point = 40;
+            }
             try {
                 if(
                     Cupboard.getInstance().cupboards.checkIsLimit(killer.getLocation()) &&
                     !Cupboard.getInstance().cupboards.checkIsLimit(killer.getLocation(), killer)
-                ) return;
+                ) evil_point /= 2;
             } catch (Exception e){}
-            if(evilpointdata.getEvil(killer) < evilpointdata.getEvil((Player) event.getEntity())){
-                evilpointdata.plusEvil(killer, 10);
-            } else {
-                evilpointdata.plusEvil(killer, 50);
-            }
+            evilpointdata.plusEvil(killer, evil_point);
         }
     }
     
