@@ -51,7 +51,7 @@ public class EvilPointData {
         int evil = getEvil(player);
         objective.getScore(player).setScore(evil);
         //紅名 + 發光判斷
-        if(evil > 5){
+        if(evil > 500){
             player.setGlowing(true);
             getKillerTeam().addPlayer(player);
         } else {
