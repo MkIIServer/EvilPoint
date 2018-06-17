@@ -12,6 +12,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -19,6 +20,10 @@ import tw.mics.spigot.plugin.cupboard.Cupboard;
 import tw.mics.spigot.plugin.evilpoint.EvilPoint;
 import tw.mics.spigot.plugin.evilpoint.data.EvilPointData;
 import tw.mics.spigot.plugin.evilpoint.utils.Util;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
 
 public class EvilPointListener extends MyListener {
     EvilPointData evilpointdata;
@@ -44,28 +49,28 @@ public class EvilPointListener extends MyListener {
         int ep = EvilPoint.getInstance().evilpointdata.getEvil((Player) event.getEntity());
         if(damager != null && damager != event.getEntity()){
             //傷害增幅
-            if(ep > 9999){
+            if(ep > 1500){
+                modifer = 4;
+            } else if(ep > 999) {
                 modifer = 3;
-            } else if(ep > 5000) {
-                modifer = 2;
-            } else if(ep > 3000) {
+            } else if(ep > 401) {
                 modifer = 1.6;
-            } else if(ep > 1000) {
-                modifer = 1.4;
-            } else if(ep > 500) {
+            } else if(ep > 301) {
+                modifer = 1.3;
+            } else if(ep > 101) {
                 modifer = 1.2;
-            } else if(ep < 300) {
-                modifer = 0.9;
             } else if(ep < 100) {
-                modifer = 0.7;
+                modifer = 1.1;
+            } else if(ep < 50) {
+                modifer = 1;
             } else if(ep == 0) {
                 modifer = 0.5;
             }
         } else {
             if(ep > 9999){
-                modifer = 3;
+                modifer = 6;
             } else if(ep > 5000) {
-                modifer = 2;
+                modifer = 5;
             }
         }
         if(modifer != 1){
@@ -110,7 +115,7 @@ public class EvilPointListener extends MyListener {
             if(evilpointdata.getEvil(killer) < evilpointdata.getEvil((Player) event.getEntity())){
                 evil_point = 20;
             } else {
-                evil_point = 40;
+                evil_point = 60;
             }
             try {
                 if(
@@ -123,7 +128,7 @@ public class EvilPointListener extends MyListener {
     }
     
     //放置TNT
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler
     public void onTNTPlaced(BlockPlaceEvent event){
         if(event.isCancelled())return;
         if(event.getBlockPlaced().getType() == Material.TNT){
@@ -160,4 +165,8 @@ public class EvilPointListener extends MyListener {
             break;
         }
     }
+    
+    
+
+
 }

@@ -3,4 +3,5 @@ main: ${project.mainclass}
 version: ${project.version}
 description: ${project.description}
 author: Mics
+authors: [Mics, Domo]
 website: https://mics.tw

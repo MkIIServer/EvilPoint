@@ -7,7 +7,6 @@ import tw.mics.spigot.plugin.evilpoint.config.Config;
 import tw.mics.spigot.plugin.evilpoint.data.Database;
 import tw.mics.spigot.plugin.evilpoint.data.EvilPointData;
 import tw.mics.spigot.plugin.evilpoint.listener.EvilPointListener;
-import tw.mics.spigot.plugin.evilpoint.listener.PlayerRespawnListener;
 import tw.mics.spigot.plugin.evilpoint.schedule.EvilPointSchedule;
 
 public class EvilPoint extends JavaPlugin {
@@ -23,7 +22,6 @@ public class EvilPoint extends JavaPlugin {
         evilpointdata = new EvilPointData(this, db.getConnection());
 
         new EvilPointListener(this);
-        new PlayerRespawnListener(this);
         new EvilPointSchedule(this);
     }
 
