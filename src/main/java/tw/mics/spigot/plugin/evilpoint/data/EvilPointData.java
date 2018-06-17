@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import tw.mics.spigot.plugin.evilpoint.EvilPoint;
 
@@ -47,14 +48,33 @@ public class EvilPointData {
     @SuppressWarnings("deprecation")
     public void scoreboardUpdate(Player player){
         player.setScoreboard(board);
-        objective.getScore(player).setScore(getEvil(player));
+        int evil = getEvil(player);
+        objective.getScore(player).setScore(evil);
+        //紅名 + 發光判斷
+        if(evil > 5){
+            player.setGlowing(true);
+            getKillerTeam().addPlayer(player);
+        } else {
+            player.setGlowing(false);
+            getKillerTeam().removePlayer(player);
+        }
+    }
+
+    private Team getKillerTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("killer");
+        if (team == null) {
+          team = board.registerNewTeam("killer");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option killer color dark_red");
+        }
+        return team;
     }
     
-    @SuppressWarnings("deprecation")
     public void scoreboardUpdate(){
         for(Player online : Bukkit.getOnlinePlayers()){
-            online.setScoreboard(board);
-            objective.getScore(online).setScore(getEvil(online));
+            this.scoreboardUpdate(online);
         }
     }
     private void initEvil(Player player){
