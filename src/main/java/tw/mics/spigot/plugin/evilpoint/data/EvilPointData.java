@@ -13,6 +13,8 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import tw.mics.spigot.plugin.evilpoint.EvilPoint;
 
@@ -51,27 +53,176 @@ public class EvilPointData {
         int evil = getEvil(player);
         objective.getScore(player).setScore(evil);
         //紅名 + 發光判斷
-        if(evil > 500){
+        if(evil > 300){
             player.setGlowing(true);
-            getKillerTeam().addPlayer(player);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 72000, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, 72000, 1));
         } else {
             player.setGlowing(false);
-            getKillerTeam().removePlayer(player);
+            player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+            player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
+            getdark_redTeam().removePlayer(player);
+            getdark_greenTeam().removePlayer(player);
+            getdark_aquaTeam().removePlayer(player);
+            getdark_purpleTeam().removePlayer(player);
+            getgoldTeam().removePlayer(player);
+            getblueTeam().removePlayer(player);
+            getgreenTeam().removePlayer(player);
+            getaquaTeam().removePlayer(player);
+            getredTeam().removePlayer(player);
+            getlight_purpleTeam().removePlayer(player);
+            getyellowTeam().removePlayer(player);
+            getblackTeam().removePlayer(player);
         }
     }
-
-    private Team getKillerTeam(){
+    //black
+    private Team getblackTeam(){
         Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-        Team team = board.getTeam("killer");
+        Team team = board.getTeam("black");
         if (team == null) {
-          team = board.registerNewTeam("killer");
+            team = board.registerNewTeam("black");
+            team.setCanSeeFriendlyInvisibles(false);
+            team.setAllowFriendlyFire(true);
+            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option black color black");
+        }
+        return team;
+    }
+    //dark_red  
+    private Team getdark_redTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("dark_red");
+        if (team == null) {
+          team = board.registerNewTeam("dark_red");
           team.setCanSeeFriendlyInvisibles(false);
           team.setAllowFriendlyFire(true);
-          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option killer color dark_red");
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option dark_red color dark_red");
+        }
+        return team;
+    }
+    //dark_green
+    private Team getdark_greenTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("dark_green");
+        if (team == null) {
+          team = board.registerNewTeam("dark_green");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option dark_green color dark_green");
+        }
+        return team;
+    }
+    //dark_aqua
+    private Team getdark_aquaTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("dark_aqua");
+        if (team == null) {
+          team = board.registerNewTeam("dark_aqua");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option dark_aqua color dark_aqua");
+        }
+        return team;
+    }
+    //dark_purple
+    private Team getdark_purpleTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("dark_purple");
+        if (team == null) {
+          team = board.registerNewTeam("dark_purple");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option dark_purple color dark_purple");
+        }
+        return team;
+    }
+    //gold
+    private Team getgoldTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("gold");
+        if (team == null) {
+          team = board.registerNewTeam("gold");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option gold color gold");
+        }
+        return team;
+    }
+    //blue
+    private Team getblueTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("blue");
+        if (team == null) {
+          team = board.registerNewTeam("blue");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option blue color blue");
+        }
+        return team;
+    }
+    //green
+    private Team getgreenTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("green");
+        if (team == null) {
+          team = board.registerNewTeam("green");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option green color green");
+        }
+        return team;
+    }
+    //aqua
+    private Team getaquaTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("aqua");
+        if (team == null) {
+          team = board.registerNewTeam("aqua");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option aqua color aqua");
+        }
+        return team;
+    }
+    //red
+    private Team getredTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("red");
+        if (team == null) {
+          team = board.registerNewTeam("red");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option red color red");
+        }
+        return team;
+    }
+    //light_purple
+    private Team getlight_purpleTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("light_purple");
+        if (team == null) {
+          team = board.registerNewTeam("light_purple");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option light_purple color light_purple");
+        }
+        return team;
+    }
+    //yellow
+    private Team getyellowTeam(){
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = board.getTeam("yellow");
+        if (team == null) {
+          team = board.registerNewTeam("yellow");
+          team.setCanSeeFriendlyInvisibles(false);
+          team.setAllowFriendlyFire(true);
+          Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "scoreboard teams option yellow color yellow");
         }
         return team;
     }
     
+//no color_____
+
+
     public void scoreboardUpdate(){
         for(Player online : Bukkit.getOnlinePlayers()){
             this.scoreboardUpdate(online);
