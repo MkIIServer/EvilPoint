@@ -3,7 +3,6 @@ package tw.mics.spigot.plugin.evilpoint.listener;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -12,7 +11,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -20,9 +18,6 @@ import tw.mics.spigot.plugin.cupboard.Cupboard;
 import tw.mics.spigot.plugin.evilpoint.EvilPoint;
 import tw.mics.spigot.plugin.evilpoint.data.EvilPointData;
 import tw.mics.spigot.plugin.evilpoint.utils.Util;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 
 public class EvilPointListener extends MyListener {
@@ -59,9 +54,9 @@ public class EvilPointListener extends MyListener {
                 modifer = 1.3;
             } else if(ep > 101) {
                 modifer = 1.2;
-            } else if(ep < 100) {
+            } else if(ep > 51) {
                 modifer = 1.1;
-            } else if(ep < 50) {
+            } else if(ep > 0) {
                 modifer = 1;
             } else if(ep == 0) {
                 modifer = 0.5;
@@ -74,13 +69,18 @@ public class EvilPointListener extends MyListener {
             }
         }
         if(modifer != 1){
-            double damage = event.getFinalDamage() * modifer;
-            event.setDamage(DamageModifier.ABSORPTION, 0);
-            event.setDamage(DamageModifier.ARMOR, 0);
-            event.setDamage(DamageModifier.BLOCKING, 0);
-            event.setDamage(DamageModifier.MAGIC, 0);
-            event.setDamage(DamageModifier.RESISTANCE, 0);
-            event.setDamage(DamageModifier.BASE, damage);
+            double absorption = event.getDamage(DamageModifier.ABSORPTION) * modifer;
+            double armor = event.getDamage(DamageModifier.ARMOR) * modifer;
+            double blocking = event.getDamage(DamageModifier.BLOCKING) * modifer;
+            double magic = event.getDamage(DamageModifier.MAGIC) * modifer;
+            double resistance = event.getDamage(DamageModifier.RESISTANCE) * modifer;
+            double base = event.getDamage(DamageModifier.BASE) * modifer;
+            event.setDamage(DamageModifier.ABSORPTION, absorption);
+            event.setDamage(DamageModifier.ARMOR, armor);
+            event.setDamage(DamageModifier.BLOCKING, blocking);
+            event.setDamage(DamageModifier.MAGIC, magic);
+            event.setDamage(DamageModifier.RESISTANCE, resistance);
+            event.setDamage(DamageModifier.BASE, base);
         }
         
         //點數計算
@@ -165,8 +165,4 @@ public class EvilPointListener extends MyListener {
             break;
         }
     }
-    
-    
-
-
 }
